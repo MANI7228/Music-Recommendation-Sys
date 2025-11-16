@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melobot | Signup</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">
+</head>
+<body>
+  <!-- Theme Toggle -->
+  <div class="toggle-container">
+    <input type="checkbox" id="darkModeToggle" class="toggle-checkbox" onclick="toggleTheme()">
+    <label for="darkModeToggle" class="toggle-label">
+      <span class="sun">☀️</span>
+      <span class="moon">🌙</span>
+    </label>
+  </div>
+
+  <div class="auth-container">
+    <div class="auth-card">
+      <h1 class="brand">🎵 <span class="gradient-text">Melobot</span></h1>
+      <h2 class="title">Sign Up</h2>
+
+      <form method="POST" action="/signup">
+        <input type="email" name="email" placeholder="Email address" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="number" name="age" placeholder="Age">
+        <input type="text" name="gender" placeholder="Gender">
+        <button type="submit">Sign Up</button>
+      </form>
+
+      <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+    </div>
+  </div>
+
+  <!-- Theme script -->
+  <script>
+    function toggleTheme() {
+      if (document.getElementById("darkModeToggle").checked) {
+        // 🌙 Dark mode
+        document.documentElement.setAttribute("data-theme", "dark");
+        localStorage.setItem("theme", "dark");
+      } else {
+        // ☀️ Light mode
+        document.documentElement.setAttribute("data-theme", "light");
+        localStorage.setItem("theme", "light");
+      }
+    }
+
+    // Load saved theme on page load
+    window.onload = () => {
+      const savedTheme = localStorage.getItem("theme") || "light"; // Default = light
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      if (savedTheme === "dark") {
+        document.getElementById("darkModeToggle").checked = true;
+      }
+    }
+  </script>
+</body>
+</html>

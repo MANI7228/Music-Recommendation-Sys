@@ -1,0 +1,177 @@
+/* ===== General Background ===== */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  background: #fafafa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ===== Auth Containers (login + signup) ===== */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.auth-card {
+  background: #fff;
+  padding: 40px 32px;
+  width: 380px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  border: 1px solid #e5e7eb;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ===== Brand Logo ===== */
+.brand {
+  font-size: 28px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.gradient-text {
+  background: linear-gradient(45deg, #ff0066, #ff66cc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ===== Titles (Login / Sign Up) ===== */
+.title {
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  background: linear-gradient(45deg, #ff0066, #ff66cc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ===== Forms ===== */
+form input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fafafa;
+  outline: none;
+  transition: background 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+form input:focus {
+  border-color: #ff0066;
+  box-shadow: 0 0 6px rgba(255,0,102,0.2);
+}
+
+form button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(45deg, #ff0066, #ff66cc);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+form button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* ===== Links ===== */
+.auth-card p {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #666;
+}
+.auth-card p a {
+  color: #ff0066;
+  font-weight: bold;
+  text-decoration: none;
+}
+.auth-card p a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Dark Mode ===== */
+html[data-theme="dark"] body {
+  background: #0d0d0d;
+  color: #f5f5f5;
+}
+
+html[data-theme="dark"] .auth-card {
+  background: #1a1a1a;
+  color: #f5f5f5;
+  border: 1px solid #333;
+  box-shadow: 0 8px 24px rgba(255,255,255,0.05);
+}
+
+html[data-theme="dark"] form input {
+  background: #2a2a2a;
+  color: #f5f5f5;
+  border: 1px solid #444;
+}
+html[data-theme="dark"] form input::placeholder {
+  color: #bbb;
+}
+
+html[data-theme="dark"] .auth-card p {
+  color: #ccc;
+}
+html[data-theme="dark"] .auth-card p a {
+  color: #ff4081;
+}
+
+/* ===== Toggle Switch ===== */
+.toggle-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.toggle-checkbox {
+  display: none;
+}
+.toggle-label {
+  width: 60px;
+  height: 30px;
+  background: #ddd;
+  border-radius: 30px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+.toggle-label::after {
+  content: "";
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.toggle-checkbox:checked + .toggle-label::after {
+  left: calc(100% - 27px);
+}
+.toggle-checkbox:checked + .toggle-label {
+  background: #ffb300;
+}
+.sun { color: orange; }
+.moon { color: #555; }
+html[data-theme="dark"] .toggle-label { background: #555; }
+html[data-theme="dark"] .sun { opacity: 0.6; }
+html[data-theme="dark"] .moon { color: #fcd34d; }

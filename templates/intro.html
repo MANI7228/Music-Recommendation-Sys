@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melobot | Intro</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='intro.css') }}">
+</head>
+<body>
+  <div class="intro-container">
+    <div class="logo">🎵</div>
+    <h1 class="title">Melobot</h1>
+    <p class="tagline">Music that matches your mood</p>
+  </div>
+
+  <script>
+    // Show intro for 4 seconds, then fade out and redirect
+    setTimeout(() => {
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 800);  // fade-out duration
+    }, 3000);   // wait 4 seconds before fade starts
+  </script>
+</body>
+</html>

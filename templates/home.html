@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Welcome to Melobot</h1>
+  <p class="muted">Pick an emoji, get music that fits your vibe.</p>
+  <div class="actions">
+    <a class="btn btn-primary" href="{{ url_for('signup') }}">Get Started</a>
+    <a class="btn" href="{{ url_for('login') }}">I already have an account</a>
+  </div>
+{% endblock %}

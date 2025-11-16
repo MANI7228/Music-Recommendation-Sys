@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melobot | Recommend</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='design.css') }}">
+</head>
+<body>
+  <!-- Theme Toggle -->
+  <div class="toggle-container">
+    <input type="checkbox" id="darkModeToggle" class="toggle-checkbox" onclick="toggleTheme()">
+    <label for="darkModeToggle" class="toggle-label">
+      <span class="sun">☀️</span>
+      <span class="moon">🌙</span>
+    </label>
+  </div>
+
+  <div class="container">
+    <h1 class="brand">🎵 Melobot</h1>
+    <p>Detect your mood or choose emoji 🎶</p>
+
+    <!-- Webcam -->
+    <div class="video-section">
+      <video id="video" width="480" height="360" autoplay></video>
+      <button id="captureBtn" class="btn">Detect Mood</button>
+      <div id="loading" class="loading hidden">Analyzing...</div>
+    </div>
+
+    <!-- Emoji Buttons -->
+    <div class="emoji-section">
+      <h3>Or Select Emoji</h3>
+      <div class="emoji-buttons">
+        <button class="emoji-btn" data-emoji="😊">😊</button>
+        <button class="emoji-btn" data-emoji="😢">😢</button>
+        <button class="emoji-btn" data-emoji="😡">😡</button>
+        <button class="emoji-btn" data-emoji="😲">😲</button>
+        <button class="emoji-btn" data-emoji="🙂">🙂</button>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div id="results">
+      <h3>Mood: <span id="mood" class="mood-text">-</span></h3>
+      <h3>Recommended Songs:</h3>
+      <div id="songs" class="song-grid"></div>
+    </div>
+
+    <!-- History -->
+    <div id="history">
+      <h3>Recent Moods</h3>
+      <ul id="historyList"></ul>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    /* ================= THEME TOGGLE ================= */
+    function toggleTheme() {
+      if (document.getElementById("darkModeToggle").checked) {
+        document.documentElement.setAttribute("data-theme", "dark");
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.documentElement.setAttribute("data-theme", "light");
+        localStorage.setItem("theme", "light");
+      }
+    }
+
+    window.onload = () => {
+      const savedTheme = localStorage.getItem("theme") || "light";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      if (savedTheme === "dark") {
+        document.getElementById("darkModeToggle").checked = true;
+      }
+    }
+
+    /* ================= WEBCAM + API ================= */
+    const video = document.getElementById("video");
+    const captureBtn = document.getElementById("captureBtn");
+    const moodText = document.getElementById("mood");
+    const songsDiv = document.getElementById("songs");
+    const historyList = document.getElementById("historyList");
+    const loading = document.getElementById("loading");
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => { video.srcObject = stream; });
+
+    captureBtn.addEventListener("click", async () => {
+      document.querySelector(".video-section").classList.add("detecting");
+      loading.classList.remove("hidden");
+
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext("2d").drawImage(video, 0, 0);
+      const imageData = canvas.toDataURL("image/png");
+
+      const res = await fetch("/detect_mood", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image: imageData })
+      });
+      const data = await res.json();
+      updateMood(data.mood, data.songs);
+
+      loading.classList.add("hidden");
+      document.querySelector(".video-section").classList.remove("detecting");
+    });
+
+    // Emoji buttons
+    document.querySelectorAll(".emoji-btn").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const emoji = btn.dataset.emoji;
+        loading.classList.remove("hidden");
+
+        const res = await fetch("/emoji_recommend", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ emoji })
+        });
+        const data = await res.json();
+        updateMood(data.mood, data.songs);
+
+        loading.classList.add("hidden");
+      });
+    });
+
+    function updateMood(mood, songs) {
+      moodText.innerText = mood;
+      moodText.className = "mood-text " + mood.toLowerCase();
+
+      // 🌈 Apply mood-based background
+      document.body.className = mood.toLowerCase();
+
+      addToHistory(mood);
+      displaySongs(songs);
+    }
+
+    function displaySongs(songs) {
+      songsDiv.innerHTML = "";
+      songs.forEach(song => {
+        const card = document.createElement("div");
+        card.classList.add("song-card");
+
+        const iframe = document.createElement("iframe");
+        iframe.src = song.spotify_url.replace("open.spotify.com/track", "open.spotify.com/embed/track");
+
+        const info = document.createElement("div");
+        info.classList.add("song-info");
+        info.innerHTML = `<h4>${song.name}</h4><span>${song.singer}</span>`;
+
+        card.appendChild(iframe);
+        card.appendChild(info);
+        songsDiv.appendChild(card);
+      });
+    }
+
+    function addToHistory(mood) {
+      const li = document.createElement("li");
+      li.textContent = `${new Date().toLocaleTimeString()} - ${mood}`;
+      historyList.prepend(li);
+      if (historyList.children.length > 5) {
+        historyList.removeChild(historyList.lastChild);
+      }
+    }
+  </script>
+</body>
+</html>

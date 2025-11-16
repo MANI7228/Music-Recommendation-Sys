@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melobot | Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body>
+  <!-- Dark/Light Mode Toggle -->
+  <div class="toggle-container">
+    <input type="checkbox" id="darkModeToggle" class="toggle-checkbox" onclick="toggleTheme()">
+    <label for="darkModeToggle" class="toggle-label">
+      <span class="sun">☀️</span>
+      <span class="moon">🌙</span>
+    </label>
+  </div>
+
+  <div class="login-container">
+    <div class="login-card">
+      <h1 class="brand">🎵 <span class="gradient-text">Melobot</span></h1>
+      <h2 class="title">Login</h2>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-messages">
+            {% for category, msg in messages %}
+              <p class="flash {{ category }}">{{ msg }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="/login">
+        <input type="email" name="email" placeholder="Email address" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Log In</button>
+      </form>
+
+      <div class="links">
+        <a href="#">Forgot password?</a>
+      </div>
+      <p class="switch">Don't have an account? 
+        <a href="{{ url_for('signup') }}">Sign up</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Fixed Theme Toggle JS -->
+  <script>
+    function toggleTheme() {
+      if (document.getElementById("darkModeToggle").checked) {
+        // 🌙 Dark mode
+        document.documentElement.setAttribute("data-theme", "dark");
+        localStorage.setItem("theme", "dark");
+      } else {
+        // ☀️ Light mode
+        document.documentElement.setAttribute("data-theme", "light");
+        localStorage.setItem("theme", "light");
+      }
+    }
+
+    // Load saved theme
+    window.onload = () => {
+      const savedTheme = localStorage.getItem("theme") || "light"; // default = light
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      if (savedTheme === "dark") {
+        document.getElementById("darkModeToggle").checked = true;
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{ title or "Melobot" }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('melobot-theme');
+      if (saved) document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+</head>
+<body>
+  <div class="container">
+    <nav class="nav">
+      <div class="brand">
+        <div class="logo">♫</div>
+        <span>Melobot</span>
+      </div>
+      <div class="links">
+        <button class="btn" id="theme-toggle" type="button">Toggle Theme</button>
+        <a href="{{ url_for('home') }}">Home</a>
+        {% if session.get('user_id') %}
+          <a href="{{ url_for('recommend') }}">Recommend</a>
+          <a href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+          <a href="{{ url_for('signup') }}">Sign Up</a>
+          <a href="{{ url_for('login') }}">Log In</a>
+        {% endif %}
+      </div>
+    </nav>
+    {% block content %}{% endblock %}
+    <div class="footer">© {{ 2025 }} Melobot • Built with Flask</div>
+  </div>
+  <script>
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
+      const root = document.documentElement;
+      const current = root.getAttribute('data-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('melobot-theme', next);
+    });
+  </script>
+</body>
+</html>

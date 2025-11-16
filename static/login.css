@@ -1,0 +1,219 @@
+/* Background */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  background: #fafafa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  transition: background 0.3s, color 0.3s;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.login-card {
+  background: #fff;
+  padding: 40px 32px;
+  width: 350px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  border: 1px solid #e5e7eb;
+  transition: background 0.3s, color 0.3s;
+}
+
+.brand {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #ff0066;
+  font-weight: bold;
+}
+
+.title {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+form input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fafafa;
+  outline: none;
+  transition: background 0.3s, color 0.3s;
+}
+form input:focus {
+  border-color: #ff0066;
+  box-shadow: 0 0 6px rgba(255,0,102,0.2);
+}
+
+form button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(45deg, #ff0066, #ff66cc);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+form button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* Flash messages */
+.flash-messages {
+  margin: 10px 0;
+}
+.flash {
+  font-size: 14px;
+  margin: 4px 0;
+}
+.flash.success { color: green; }
+.flash.error { color: red; }
+.flash.info { color: blue; }
+
+/* Links */
+.links {
+  margin-top: 12px;
+}
+.links a {
+  font-size: 13px;
+  color: #555;
+  text-decoration: none;
+}
+.links a:hover {
+  text-decoration: underline;
+}
+
+.switch {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #666;
+}
+.switch a {
+  color: #ff0066;
+  font-weight: bold;
+  text-decoration: none;
+}
+.switch a:hover {
+  text-decoration: underline;
+}
+
+/* ============ Dark Mode (via html[data-theme]) ============ */
+html[data-theme="dark"] body {
+  background: #121212;
+  color: #eee;
+}
+
+html[data-theme="dark"] .login-card {
+  background: #1e1e1e;
+  color: #eee;
+  box-shadow: 0 8px 24px rgba(255,255,255,0.05);
+}
+
+html[data-theme="dark"] form input {
+  background: #2a2a2a;
+  color: #eee;
+  border: 1px solid #444;
+}
+
+html[data-theme="dark"] form button {
+  background: linear-gradient(45deg, #ff66cc, #ff0066);
+}
+
+/* Toggle Switch */
+.toggle-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.toggle-checkbox {
+  display: none;
+}
+
+.toggle-label {
+  width: 60px;
+  height: 30px;
+  background: #ddd;
+  border-radius: 30px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+  font-size: 16px;
+}
+
+.toggle-label::after {
+  content: "";
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.toggle-checkbox:checked + .toggle-label::after {
+  left: calc(100% - 27px);
+}
+
+.toggle-checkbox:checked + .toggle-label {
+  background: #ffb300;
+}
+
+.sun {
+  color: orange;
+}
+.moon {
+  color: #555;
+}
+
+/* Dark mode toggle colors */
+html[data-theme="dark"] .toggle-label {
+  background: #555;
+}
+html[data-theme="dark"] .sun {
+  opacity: 0.6;
+}
+html[data-theme="dark"] .moon {
+  color: #fcd34d;
+}
+/* Gradient for brand name */
+.gradient-text {
+  background: linear-gradient(45deg, #ff0066, #ff66cc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Fix Login title visibility */
+.title {
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-align: center;
+  color: #333; /* visible in light mode */
+}
+
+html[data-theme="dark"] .title {
+  color: #f5f5f5; /* visible in dark mode */
+}

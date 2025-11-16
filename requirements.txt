@@ -1,0 +1,5 @@
+flask==3.1.2
+opencv-python==4.10.0.84
+fer==22.5.0
+moviepy==1.0.3
+mediapipe==0.10.20
